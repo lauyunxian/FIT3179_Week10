@@ -1,0 +1,84 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 350,
+  "title": {
+    "text": "Average Income (USD) by Region Over Time"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/lauyunxian/FIT3179_Week10/main/avg_income_regions.csv",
+    "format": {"type": "csv"}
+  },
+  "encoding": {
+        "x": {
+          "field": "Year", 
+          "type": "ordinal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "Average Income", 
+          "type": "quantitative",
+          "title": "Average Income (USD)"
+        }
+  },
+  "layer": [
+    {
+      "selection": {
+        "region_highlight": {
+          "type": "multi",
+          "fields": ["Regions"],
+          "bind": "legend"
+        }
+      },
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "color": {
+          "field": "Regions",
+          "type": "nominal",
+          "title": "Region"
+        },
+        "opacity": {
+          "condition": {
+            "selection": "region_highlight",
+            "value": 1
+          },
+          "value": 0.2 
+        },
+        "tooltip": [
+          {"field": "Regions", "type": "nominal", "title": "Region"},
+          {"field": "Year", "type": "ordinal", "title": "Year"},
+          {"field": "Average Income", "type": "quantitative", "title": "Average Income (USD)"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -12,
+        "fontSize": 11.5,
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "text": {"field": "Regions", "type": "nominal"},
+        "color": {"value": "black"},
+        "opacity": {
+          "condition": {
+            "test": "datum['Year'] == 2022",
+            "value": 1
+          },
+          "value": 0
+        },
+        "tooltip": [
+          {"field": "Regions", "type": "nominal", "title": "Region"},
+          {"field": "Year", "type": "ordinal", "title": "Year"},
+          {"field": "Average Income", "type": "quantitative", "title": "Average Income (USD)"}
+        ]
+      }
+    }
+  ]
+}
